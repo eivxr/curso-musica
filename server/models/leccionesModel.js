@@ -16,7 +16,7 @@ function getLecciones() {
 function profileLeccion(id) {
     return new Promise((resolve, reject) => {
         conexion.query(
-            `SELECT * FROM leccion WHERE id_leccion='${id}'`,
+            `SELECT * FROM leccion JOIN temario ON leccion.id_leccion=temario.id_leccion WHERE leccion.id_leccion='${id}'`,
             function (error, result, field) {
                 if (error) 
                     return reject(error);

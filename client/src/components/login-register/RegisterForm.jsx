@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
-import { TextField, Button, Typography, Container, Grid, Box } from '@mui/material';
+import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Grid,
+  Box,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUserAction } from "../../redux/actions/users/RegisterUserAction";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { success, error, loading, registerData } = useSelector(
+    (state) => state.users.register
+  );
+
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    username: '',
+    email: "",
+    password: "",
+    username: "",
   });
 
   const handleChange = (e) => {
@@ -16,9 +33,17 @@ const RegisterForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Formulario enviado:', formData);
+    console.log("Formulario enviado:", formData);
+    dispatch(registerUserAction(formData)).then(()=>{
+      if(success) {
+        navigate('/login')
+      }
+    }).catch((error) => {
+      console.log('error: ',error)
+    })
   };
 
   return (
@@ -65,7 +90,12 @@ const RegisterForm = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Button type="submit" fullWidth variant="contained" color="primary">
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+              >
                 Registrarse
               </Button>
             </Grid>
