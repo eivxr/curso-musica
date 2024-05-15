@@ -7,7 +7,6 @@ const presentarEvaluacion = async (req, res) => {
 
         //Buscar leccion
         const leccion = await Leccion.findOne({ where: { id_leccion } });
-
         //Crear JOIN
         const evaluacion = await Leccion.findOne({
             where: { id_leccion },
@@ -22,7 +21,7 @@ const presentarEvaluacion = async (req, res) => {
             attributes: ['nombre']
         })
 
-        res.status(500).json({
+        return res.status(200).json({
             evaluacion
         })
     } catch (error) {
